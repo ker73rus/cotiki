@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">catfacts</string>
+    <string name="title_home">Список кошечек</string>
+    <string name="title_dashboard">Избранное</string>
+</resources>
