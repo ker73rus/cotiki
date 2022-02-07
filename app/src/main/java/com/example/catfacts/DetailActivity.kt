@@ -30,8 +30,8 @@ class DetailActivity : AppCompatActivity() {
     }
     private fun takeImageUrl(json:String){
         val file = JSONObject(json)
-        val urlfile = file.getString("file")
-        Glide.with(this).load(urlfile).into(imageView)
+        val urlOnFile = file.getString("file")
+        Glide.with(this).load(urlOnFile).into(imageView)
     }
 
 
