@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
         initRealm()
         val queue = Volley.newRequestQueue(context)
         getCatsFromServer(queue)
-
+        showListFromDB()
         return root
     }
     private fun getCatsFromServer(queue: RequestQueue) {
@@ -46,7 +46,8 @@ class HomeFragment : Fragment() {
             url,
             { response ->
                 val catList = parseResponse(response)
-                setList(catList)
+                saveIntoDB(catList)
+                showListFromDB()
             },
             {
                 Toast.makeText(context, "Ошибка запроса", Toast.LENGTH_SHORT).show()
@@ -63,7 +64,10 @@ class HomeFragment : Fragment() {
             val jsonObject = jsonArray.getJSONObject(index)
             val catText = jsonObject.getString("text")
             //val catImage = jsonObject.getString("image")
-            val cat = Cat(catText)
+            val cat = Cat()
+            cat.text = catText
+            cat.fav = "no"
+
             catList.add(cat)
         }
         return catList
@@ -74,6 +78,20 @@ class HomeFragment : Fragment() {
         recyclerid.adapter = adapter
         val layoutManager = LinearLayoutManager(context)
         recyclerid.layoutManager = layoutManager
+    }
+    private fun  saveIntoDB(cats: List<Cat>){
+        val realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+        realm.copyToRealm(cats)
+        realm.commitTransaction()
+    }
+    private fun  loadFromDB():List<Cat>{
+        val realm = Realm.getDefaultInstance()
+        return  realm.where(Cat::class.java).findAll()
+    }
+    private fun showListFromDB(){
+        val cats = loadFromDB()
+        setList(cats)
     }
     private fun initRealm(){
         Realm.init(context)
