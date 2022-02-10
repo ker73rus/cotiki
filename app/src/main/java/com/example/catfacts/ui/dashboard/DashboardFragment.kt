@@ -9,25 +9,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.catfacts.Cat
 import com.example.catfacts.CatAdapter
 import com.example.catfacts.CatAdapterDash
+import com.example.catfacts.databinding.FragmentDashBinding
 import com.example.catfacts.databinding.FragmentHomeBinding
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import kotlinx.android.synthetic.main.fragment_dashboard.*
+import kotlinx.android.synthetic.main.fragment_dash.*
 
 class DashboardFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
-
+    lateinit var binding: FragmentDashBinding
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentDashBinding.inflate(inflater, container, false)
         val root: View = binding.root
         initRealm()
         showListFromDB()
@@ -45,10 +44,10 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setList(cats: List<Cat>) {
-        val adapter = CatAdapter(cats)
-         recyclerView2Id?.adapter = adapter
         val layoutManager = LinearLayoutManager(context)
-        //recyclerid.layoutManager = layoutManager
+        binding.recyclerViewId.layoutManager = layoutManager
+        val adapter = CatAdapter(cats)
+        binding.recyclerViewId.adapter = adapter
     }
 
     private fun initRealm() {
@@ -59,8 +58,4 @@ class DashboardFragment : Fragment() {
         Realm.setDefaultConfiguration(config)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
