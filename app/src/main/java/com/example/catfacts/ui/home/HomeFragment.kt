@@ -13,6 +13,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.catfacts.Cat
 import com.example.catfacts.CatAdapter
+import com.example.catfacts.MainActivity
 import com.example.catfacts.databinding.FragmentHomeBinding
 import io.realm.Realm
 import io.realm.RealmConfiguration

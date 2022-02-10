@@ -15,7 +15,6 @@ import com.example.catfacts.ui.home.HomeFragment
 import io.realm.ImportFlag
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.json.JSONObject
 
@@ -70,15 +69,13 @@ class DetailActivity : AppCompatActivity() {
         if (cat.fav == "false") {
             cat.fav = "true"
             realm.beginTransaction()
-            kitty.findAll().deleteAllFromRealm()
-            realm.insertOrUpdate(cat)
+            kitty.findFirst()?.fav = "true"
             realm.commitTransaction()
             favourite.text = "Удалить из избранного"
         } else if (cat.fav == "true") {
             cat.fav = "false"
             realm.beginTransaction()
-            kitty.findAll().deleteAllFromRealm()
-            realm.insertOrUpdate(cat)
+            kitty.findFirst()?.fav = "false"
             realm.commitTransaction()
             favourite.text = "Добавить в избранное"
         }
