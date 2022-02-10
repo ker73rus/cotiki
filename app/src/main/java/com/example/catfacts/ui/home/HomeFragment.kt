@@ -13,7 +13,6 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.catfacts.Cat
 import com.example.catfacts.CatAdapter
-import com.example.catfacts.MainActivity
 import com.example.catfacts.databinding.FragmentHomeBinding
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -40,6 +39,7 @@ class HomeFragment : Fragment() {
         getCatsFromServer(queue)
         return root
     }
+
     private fun getCatsFromServer(queue: RequestQueue) {
         val stringRequest = StringRequest(
             Request.Method.GET,
@@ -73,37 +73,43 @@ class HomeFragment : Fragment() {
         }
         return catList
     }
-    private fun  saveIntoDB(cats: List<Cat>){
+
+    private fun saveIntoDB(cats: List<Cat>) {
         val realm = Realm.getDefaultInstance()
-        if(realm.where(Cat::class.java).findAll().isEmpty()) {
+        if (realm.where(Cat::class.java).findAll().isEmpty()) {
             realm.beginTransaction()
-            for (index in cats.indices){
+            for (index in cats.indices) {
                 realm.copyToRealm(cats[index])
             }
             realm.commitTransaction()
         }
     }
-    private fun  loadFromDB():List<Cat>{
+
+    private fun loadFromDB(): List<Cat> {
         val realm = Realm.getDefaultInstance()
         return realm.where(Cat::class.java).findAll()
     }
-    private fun showListFromDB(){
+
+    private fun showListFromDB() {
         val cats = loadFromDB()
         setList(cats)
     }
+
     private fun setList(cats: List<Cat>) {
         val adapter = CatAdapter(cats)
         recyclerViewId.adapter = adapter
         val layoutManager = LinearLayoutManager(context)
         recyclerViewId.layoutManager = layoutManager
     }
-    private fun initRealm(){
+
+    private fun initRealm() {
         Realm.init(context)
         val config = RealmConfiguration.Builder()
             .deleteRealmIfMigrationNeeded()
             .build()
         Realm.setDefaultConfiguration(config)
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -1,21 +1,16 @@
 package com.example.catfacts
 
 
-import android.app.ProgressDialog.show
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
-import com.example.catfacts.ui.home.HomeFragment
-import io.realm.ImportFlag
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_detail.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import org.json.JSONObject
 
 class DetailActivity : AppCompatActivity() {
@@ -47,7 +42,7 @@ class DetailActivity : AppCompatActivity() {
             Request.Method.GET,
             url,
             { response ->
-                    takeImageUrl(response)
+                takeImageUrl(response)
             },
             {
                 Toast.makeText(this, "Ошибка картинки", Toast.LENGTH_SHORT).show()
@@ -86,7 +81,6 @@ class DetailActivity : AppCompatActivity() {
         val realm = Realm.getDefaultInstance()
         return realm.where(Cat::class.java).findAll()
     }
-
 
 
     companion object {

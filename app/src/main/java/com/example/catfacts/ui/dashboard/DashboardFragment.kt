@@ -8,18 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.catfacts.Cat
 import com.example.catfacts.CatAdapter
-import com.example.catfacts.CatAdapterDash
 import com.example.catfacts.databinding.FragmentDashBinding
-import com.example.catfacts.databinding.FragmentHomeBinding
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import kotlinx.android.synthetic.main.fragment_dash.*
 
 class DashboardFragment : Fragment() {
 
     lateinit var binding: FragmentDashBinding
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+
+    override fun onResume() {
+        super.onResume()
+        showListFromDB()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

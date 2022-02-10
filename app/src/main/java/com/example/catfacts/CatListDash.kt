@@ -16,7 +16,7 @@ class CatAdapterDash(private val cats: List<Cat>) : RecyclerView.Adapter<CatView
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolderDash {
         val rootView = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.cat_item,parent,false)
+            .inflate(R.layout.cat_item, parent, false)
         return CatViewHolderDash((rootView))
     }
 
@@ -40,11 +40,12 @@ class CatViewHolderDash(itemView: View) : RecyclerView.ViewHolder(itemView) {
             openDetail(itemView.context, cat)
         }
     }
-    private fun openDetail(context: Context, cat: Cat){
+
+    private fun openDetail(context: Context, cat: Cat) {
         val intent = Intent(context, DetailActivity::class.java)
-        intent.putExtra(CAT_FACT_TEXT_TEXT,cat.text)
-        intent.putExtra(CAT_FACT_NUM,cat.num)
-        intent.putExtra(CAT_FACT_FAV,cat.fav)
+        intent.putExtra(CAT_FACT_TEXT_TEXT, cat.text)
+        intent.putExtra(CAT_FACT_NUM, cat.num)
+        intent.putExtra(CAT_FACT_FAV, cat.fav)
         context.startActivity(intent)
     }
 }
