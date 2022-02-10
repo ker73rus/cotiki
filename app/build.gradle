@@ -38,6 +38,7 @@ android {
 }
 realm {
     syncEnabled = true
+    kotlinExtensionsEnabled = false
 }
 dependencies {
 

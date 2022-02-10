@@ -1,6 +1,7 @@
 package com.example.catfacts
 
 
+import android.app.ProgressDialog.show
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -10,9 +11,9 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
+import com.example.catfacts.ui.home.HomeFragment
 import io.realm.ImportFlag
 import io.realm.Realm
-import io.realm.kotlin.delete
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -29,14 +30,12 @@ class DetailActivity : AppCompatActivity() {
         cat.text = intent?.extras?.getString(CAT_FACT_TEXT_TEXT).toString()
         cat.num = intent?.extras?.getString(CAT_FACT_NUM).toString()
         cat.fav = intent?.extras?.getString(CAT_FACT_FAV).toString()
-        favourite.setOnClickListener{
+        favourite.setOnClickListener {
             saveIntoDB(cat)
         }
-        if(cat.fav == "true"){
+        if (cat.fav == "true") {
             favourite.text = "Удалить из избранного"
-        }
-        else if (cat.fav == "false")
-        {
+        } else if (cat.fav == "false") {
             favourite.text = "Добавить в избранное"
         }
         val queue = Volley.newRequestQueue((this))
@@ -44,77 +43,70 @@ class DetailActivity : AppCompatActivity() {
     }
 
 
-
-
-
     private fun getImageFromServer(queue: RequestQueue) {
         val stringRequest = StringRequest(
             Request.Method.GET,
             url,
             { response ->
-                takeImageUrl(response)
+                    takeImageUrl(response)
             },
             {
                 Toast.makeText(this, "Ошибка картинки", Toast.LENGTH_SHORT).show()
             }
         )
-
         queue.add(stringRequest)
     }
-    private fun takeImageUrl(json:String){
+
+    private fun takeImageUrl(json: String) {
         val file = JSONObject(json)
         val urlfile = file.getString("file")
         Glide.with(this).load(urlfile).into(imageView)
     }
 
 
-
-
-
-    private fun  saveIntoDB(cat: Cat){
+    private fun saveIntoDB(cat: Cat) {
         val realm = Realm.getDefaultInstance()
         val kitty = realm.where(Cat::class.java).equalTo("num", cat.num)
-        if(cat.fav == "false") {
+        if (cat.fav == "false") {
             cat.fav = "true"
             realm.beginTransaction()
             kitty.findAll().deleteAllFromRealm()
             realm.insertOrUpdate(cat)
             realm.commitTransaction()
             favourite.text = "Удалить из избранного"
-        }
-        else if (cat.fav == "true"){
+        } else if (cat.fav == "true") {
             cat.fav = "false"
             realm.beginTransaction()
+            kitty.findAll().deleteAllFromRealm()
             realm.insertOrUpdate(cat)
             realm.commitTransaction()
             favourite.text = "Добавить в избранное"
         }
-        setList(loadFromDB())
+
     }
-    private fun  loadFromDB():List<Cat>{
+
+    private fun loadFromDB(): List<Cat> {
         val realm = Realm.getDefaultInstance()
         return realm.where(Cat::class.java).findAll()
     }
-    private fun showListFromDB(){
+
+    private fun showListFromDB() {
         val cats = loadFromDB()
         setList(cats)
     }
+
     private fun setList(cats: List<Cat>) {
-        val adapter = CatAdapter(cats)
-        recyclerid.adapter = adapter
-        val layoutManager = LinearLayoutManager(this)
-        recyclerid.layoutManager = layoutManager
+        recyclerid.refreshDrawableState()
     }
 
 
-
-    companion object
-    {
+    companion object {
         const val CAT_FACT_TEXT_TEXT = "com.example.catsfacts.cat_fact_text_tag"
         const val CAT_FACT_NUM = "com.example.catsfacts.cat_fact_num_tag"
         var CAT_FACT_FAV = "com.example.catsfacts.cat_fact_fav_tag"
     }
-    private fun setupActionBar(){
+
+    private fun setupActionBar() {
         supportActionBar?.apply {
             setDisplayShowHomeEnabled(true)
             setDisplayHomeAsUpEnabled(true)
@@ -126,7 +118,8 @@ class DetailActivity : AppCompatActivity() {
         finish()
         return true
     }
-    private fun setText(){
+
+    private fun setText() {
         val text = intent?.extras?.getString(CAT_FACT_TEXT_TEXT)
         textId.text = text
     }
