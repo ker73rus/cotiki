@@ -1,6 +1,9 @@
 package com.example.catfacts
 
-data class Cat(
-    var text: String
-    //   val image: String
-)
+import io.realm.RealmObject
+
+open class Cat :RealmObject(){
+    var text = ""
+    var num = ""
+    var fav = ""
+}
