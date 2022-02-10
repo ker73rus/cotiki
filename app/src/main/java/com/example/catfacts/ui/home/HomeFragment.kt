@@ -34,7 +34,7 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        initRealm()
+
         val queue = Volley.newRequestQueue(context)
         getCatsFromServer(queue)
 
@@ -62,8 +62,11 @@ class HomeFragment : Fragment() {
         for (index in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(index)
             val catText = jsonObject.getString("text")
+            val catID = jsonObject.getString("_id")
             //val catImage = jsonObject.getString("image")
-            val cat = Cat(catText)
+            val cat = Cat()
+                cat.text = catText
+                cat._id = catID
             catList.add(cat)
         }
         return catList
@@ -74,13 +77,6 @@ class HomeFragment : Fragment() {
         recyclerid.adapter = adapter
         val layoutManager = LinearLayoutManager(context)
         recyclerid.layoutManager = layoutManager
-    }
-    private fun initRealm(){
-        Realm.init(context)
-        val config = RealmConfiguration.Builder()
-            .deleteRealmIfMigrationNeeded()
-            .build()
-        Realm.setDefaultConfiguration(config)
     }
     override fun onDestroyView() {
         super.onDestroyView()
