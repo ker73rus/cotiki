@@ -77,6 +77,7 @@ class DetailActivity : AppCompatActivity() {
         if(cat.fav == "false") {
             cat.fav = "true"
             realm.beginTransaction()
+            kitty.findAll().deleteAllFromRealm()
             realm.insertOrUpdate(cat)
             realm.commitTransaction()
             favourite.text = "Удалить из избранного"
