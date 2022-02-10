@@ -87,14 +87,6 @@ class DetailActivity : AppCompatActivity() {
         return realm.where(Cat::class.java).findAll()
     }
 
-    private fun showListFromDB() {
-        val cats = loadFromDB()
-        setList(cats)
-    }
-
-    private fun setList(cats: List<Cat>) {
-        recyclerid.refreshDrawableState()
-    }
 
 
     companion object {

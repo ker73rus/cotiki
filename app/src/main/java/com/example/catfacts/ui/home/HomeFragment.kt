@@ -93,9 +93,9 @@ class HomeFragment : Fragment() {
     }
     private fun setList(cats: List<Cat>) {
         val adapter = CatAdapter(cats)
-        recyclerid.adapter = adapter
+        recyclerViewId.adapter = adapter
         val layoutManager = LinearLayoutManager(context)
-        recyclerid.layoutManager = layoutManager
+        recyclerViewId.layoutManager = layoutManager
     }
     private fun initRealm(){
         Realm.init(context)

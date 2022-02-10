@@ -11,25 +11,25 @@ import com.example.catfacts.DetailActivity.Companion.CAT_FACT_FAV
 import com.example.catfacts.DetailActivity.Companion.CAT_FACT_NUM
 import com.example.catfacts.DetailActivity.Companion.CAT_FACT_TEXT_TEXT
 
-class CatAdapter(private val cats: List<Cat>) : RecyclerView.Adapter<CatViewHolder>() {
+class CatAdapterDash(private val cats: List<Cat>) : RecyclerView.Adapter<CatViewHolderDash>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolderDash {
         val rootView = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.cat_item,parent,false)
-        return CatViewHolder(rootView)
+        return CatViewHolderDash((rootView))
     }
 
     override fun getItemCount(): Int {
         return cats.size
     }
 
-    override fun onBindViewHolder(holder: CatViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CatViewHolderDash, position: Int) {
         holder.bind(cats.get(position))
     }
 }
 
-class CatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class CatViewHolderDash(itemView: View) : RecyclerView.ViewHolder(itemView) {
     //private val imageView: ImageView = itemView.findViewById((R.id.TextId))
     private val textView: TextView = itemView.findViewById((R.id.TextId))
 
